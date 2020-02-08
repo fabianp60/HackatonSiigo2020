@@ -12,6 +12,7 @@ SearchProductsFrontControl.prototype.GetInitialData = function () {
 
 SearchProductsFrontControl.prototype.InitControl = function () {
 	this._inputSearch = document.getElementById('searchText');
+	this._searchButton = document.getElementById("search-products-button");
 	this._maxSuggestedItems = parseInt(this._inputSearch.dataset.maxSuggestedItems);
 };
 
@@ -29,12 +30,16 @@ SearchProductsFrontControl.prototype.InitDynamicControls = function () {
 };
 
 SearchProductsFrontControl.prototype.InitEventListeners = function () {
-
+	this._searchButton.addEventListener('click', this.OnSearchEvent.bind(this));
 };
 
 SearchProductsFrontControl.prototype.GetSuggestionsFromAPI = function () {
 	let fullprods = ["Zapatos", "Camisetas", "Celulares", "Computadores", "Medias", "Maletines", "Computadores", "Alimentos"];
 	return fullprods.slice(0, this._maxSuggestedItems);
 };
+
+SearchProductsFrontControl.prototype.OnSearchEvent = function () {
+	alert("Cargar la tabla con los productos del filtro: " + this._inputSearch.value);
+}
 
 const searchProducts = new SearchProductsFrontControl();
