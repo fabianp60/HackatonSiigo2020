@@ -1,4 +1,5 @@
 ﻿function SearchProductsFrontControl() {
+	this.InitLocalDB();
 	this.InitControl();
 	this.GetInitialData();
 	this.InitDynamicControls();
@@ -12,15 +13,15 @@ SearchProductsFrontControl.prototype.GetInitialData = function () {
 
 SearchProductsFrontControl.prototype.InitControl = function () {
 	this._inputSearch = document.getElementById('searchText');
-	this._searchButton = document.getElementById("search-products-button");
 	this._maxSuggestedItems = parseInt(this._inputSearch.dataset.maxSuggestedItems);
+	this._searchButton = document.getElementById("search-products-button");
+	this._tbodyForResults = document.getElementById("search-prods-result");
 };
 
 SearchProductsFrontControl.prototype.InitDynamicControls = function () {
 	this._tagifySearchControl = new Tagify(this._inputSearch, {
 		whitelist: this._suggestions,
 		dropdown: {
-			/*classname: "color-blue",*/
 			enabled: 0,
 			maxItems: this._maxSuggestedItems,
 			closeOnSelect: false
@@ -34,12 +35,59 @@ SearchProductsFrontControl.prototype.InitEventListeners = function () {
 };
 
 SearchProductsFrontControl.prototype.GetSuggestionsFromAPI = function () {
-	let fullprods = ["Zapatos", "Camisetas", "Celulares", "Computadores", "Medias", "Maletines", "Computadores", "Alimentos"];
-	return fullprods.slice(0, this._maxSuggestedItems);
+	return this._localDB.fullSuggestions.slice(0, this._maxSuggestedItems);
 };
 
 SearchProductsFrontControl.prototype.OnSearchEvent = function () {
-	alert("Cargar la tabla con los productos del filtro: " + this._inputSearch.value);
-}
+	let filteredProducts = null;
+	if (this._inputSearch.value.length > 0) {
+		let valuesToSearch = JSON.parse(this._inputSearch.value).map((x) => { return x.value; });
+
+		filteredProducts = this._localDB.fullProducts.filter(function (prod) {
+			return valuesToSearch.includes(prod.name);
+		}.bind(this));
+	}
+
+	this._tbodyForResults.innerHTML = "";
+	if (filteredProducts != null) {
+		filteredProducts.forEach(function (prod) {
+			this._tbodyForResults.appendChild(this.GetTableRowTemplate(prod));
+		}.bind(this));
+	}
+};
+
+SearchProductsFrontControl.prototype.GetTableRowTemplate = function (rowData) {
+	let div = document.createElement('div');
+	let htmlRow = `<tr>
+				<td>${rowData.tenant_id}</td>
+				<td>${rowData.name}</td>
+				<td>${rowData.description}</td>
+				<td>${rowData.list_price}</td>
+			</tr>`;
+	div.innerHTML = htmlRow;
+	return div.firstChild;
+};
+
+SearchProductsFrontControl.prototype.GetProductsByName = function () {
+	return this._fullSuggestions.slice(0, this._maxSuggestedItems);
+};
+
+SearchProductsFrontControl.prototype.InitLocalDB = function () {
+	this._localDB = {
+		fullSuggestions: ["Tenis", "Camisetas", "Celulares", "Computadores", "Medias", "Maletines", "Computadores", "Alimentos"],
+		fullProducts: [
+			{ id: 1, tenant_id: "Nike", name: "Tenis", description: "Tenis para deporte", list_price: 235000.25 },
+			{ id: 2, tenant_id: "Adidas", name: "Tenis", description: "Tenis para runnig", list_price: 215000.50 },
+			{ id: 3, tenant_id: "Puma", name: "Tenis", description: "Tenis para deporte", list_price: 235000.25 },
+			{ id: 4, tenant_id: "Nike", name: "Camisetas", description: "Camisetas para cualquier deporte", list_price: 35000.25 },
+			{ id: 5, tenant_id: "Adidas", name: "Camisetas", description: "Camisetas para runnig", list_price: 45000.50 },
+			{ id: 6, tenant_id: "Puma", name: "Camisetas", description: "Camisetas para senderismo, running", list_price: 25000.35 },
+			{ id: 7, tenant_id: "Xiaomi", name: "Celulares", description: "Celular gama media", list_price: 850000.35 },
+			{ id: 8, tenant_id: "Huawei", name: "Celulares", description: "Celular gama media", list_price: 950000.45 },
+			{ id: 9, tenant_id: "Apple", name: "Celulares", description: "Celular gama media", list_price: 1250000.55 },
+			{ id: 10, tenant_id: "Samsung", name: "Celulares", description: "Celular gama media", list_price: 1150000.75 }
+		]
+	};
+};
 
 const searchProducts = new SearchProductsFrontControl();
