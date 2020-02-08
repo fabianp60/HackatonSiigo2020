@@ -1,93 +1,58 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using ProductsWebApi.Models;
 
 namespace ProductsWebApi.Controllers
 {
-    public class ProductsController : Controller
+    [Route("api/v1/[controller]")]
+    [ApiController]
+    public class ProductsController : ControllerBase
     {
-        // GET: Products
-        public ActionResult Index()
+        private readonly ILogger<ProductsController> _logger;
+        private ConcurrentBag<Product> products = new ConcurrentBag<Product>();
+
+        public ProductsController(ILogger<ProductsController> logger)
         {
-            return View();
+            _logger = logger;
         }
 
-        // GET: Products/Details/5
-        public ActionResult Details(int id)
+        // GET: api/Products
+        [HttpGet]
+        public List<Product> Get()
         {
-            return View();
+            return products.ToList();
         }
 
-        // GET: Products/Create
-        public ActionResult Create()
+        // GET: api/Products/5
+        [HttpGet("{id}", Name = "Get")]
+        public Product Get(int id)
         {
-            return View();
+            return products.Where(p => p.Id == id).FirstOrDefault();
         }
 
-        // POST: Products/Create
+        // POST: api/Products
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public void Post([FromBody] Product value)
         {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            products.Add(value);
         }
 
-        // GET: Products/Edit/5
-        public ActionResult Edit(int id)
+        // PUT: api/Products/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] Product value)
         {
-            return View();
         }
 
-        // POST: Products/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        // DELETE: api/ApiWithActions/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
         {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Products/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Products/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
