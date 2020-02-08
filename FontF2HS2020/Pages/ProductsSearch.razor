@@ -1,0 +1,29 @@
+﻿@page "/productsearch"
+
+@using Data.Migrations
+@inject ProductsService ProductService
+
+<h3>Busqueda de productos</h3>
+
+<div class="form-group">
+    <label for="serachText">Nombre del producto</label>
+    <input type="text" class="form-control" id="searchText" aria-describedby="searchHelp" @onclick="SetVisibleCollapse">
+    <small id="searchHelp" class="form-text text-muted">Ingrese el nombre del producto que desea encontrar</small>
+</div>
+<div class="collapse @_visibleCollapse" id="collapseExample">
+    <snall class="text-muted">Buscados recientemente</snall>
+    <div>
+        <span class="badge badge-primary">Producto 1</span>
+        <span class="badge badge-success">Producto 2</span>
+        <span class="badge badge-info">Producto 3</span>
+    </div>
+</div>
+
+@code {
+    private string _visibleCollapse = "";
+
+    private void SetVisibleCollapse()
+    {
+        _visibleCollapse = "show";
+    }
+}
