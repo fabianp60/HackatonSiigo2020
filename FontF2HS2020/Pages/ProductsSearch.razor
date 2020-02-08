@@ -1,29 +1,70 @@
 ﻿@page "/productsearch"
 
-@using Data.Migrations
+@using FontF2HS2020.Data
 @inject ProductsService ProductService
 
 <h3>Busqueda de productos</h3>
 
 <div class="form-group">
     <label for="serachText">Nombre del producto</label>
-    <input type="text" class="form-control" id="searchText" aria-describedby="searchHelp" @onclick="SetVisibleCollapse">
+    <input type="text" @bind-value="_searchText" @bind-value:event="oninput" class="form-control" id="searchText" aria-describedby="searchHelp" @onclick="SetVisibleRecentSearchedCollapse" />
     <small id="searchHelp" class="form-text text-muted">Ingrese el nombre del producto que desea encontrar</small>
 </div>
-<div class="collapse @_visibleCollapse" id="collapseExample">
-    <snall class="text-muted">Buscados recientemente</snall>
-    <div>
-        <span class="badge badge-primary">Producto 1</span>
-        <span class="badge badge-success">Producto 2</span>
-        <span class="badge badge-info">Producto 3</span>
-    </div>
+
+
+<div class="collapse @_cssSearchedProdNamesCollapse">
+    <small class="text-muted d-block">Productos encontrados</small>
+    @if (_filteredProdNames == null)
+    {
+        <p><em>Buscando...</em></p>
+    }
+    else
+    {
+        @foreach (var prodName in _filteredProdNames)
+        {
+            <span class="badge badge-primary">@prodName</span>
+        }
+    }
+</div>
+<div class="collapse @_cssRecentSearchedProdNamesCollapse">
+    <small class="text-muted d-block">Buscados recientemente</small>
+    @if (_recentlySearched != null)
+    {
+        @foreach (var searched in _recentlySearched)
+        {
+            <span class="badge badge-warning">@searched</span>
+        }
+    }
 </div>
 
-@code {
-    private string _visibleCollapse = "";
+<button class="btn btn-success mt-4">Buscar productos</button>
 
-    private void SetVisibleCollapse()
+@code {
+    private string _cssSearchedProdNamesCollapse = "";
+    private string _cssRecentSearchedProdNamesCollapse = "";
+    private string[] _productNames;
+    private string[] _recentlySearched;
+    private string _searchText { get; set; } = "";
+    private int _minCharactersSearch = 3;
+
+    protected override async Task OnInitializedAsync()
     {
-        _visibleCollapse = "show";
+        _productNames = await ProductService.GetProductNamesAsync("");
     }
+
+    private void SetVisibleRecentSearchedCollapse()
+    {
+        _cssRecentSearchedProdNamesCollapse = "show";
+    }
+
+    private async Task SearchProductName()
+    {
+        if (_searchText.Length >= _minCharactersSearch)
+        {
+            _cssSearchedProdNamesCollapse = "show";
+            _productNames = await ProductService.GetProductNamesAsync(_searchText);
+        }
+    }
+
+    private string[] _filteredProdNames => _productNames != null ? _productNames.Where(pn => pn.StartsWith(_searchText)).ToArray() : null;
 }
