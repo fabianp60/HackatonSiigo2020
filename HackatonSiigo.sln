@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductsWebApi", "ProductsWebApi\ProductsWebApi.csproj", "{9D8E25D0-660A-4888-9988-C89F20011174}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontF2HS2020", "FontF2HS2020\FontF2HS2020.csproj", "{AF4F6FC7-9CBD-4B77-A261-B63536FD2822}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FontF2HS2020", "FontF2HS2020\FontF2HS2020.csproj", "{AF4F6FC7-9CBD-4B77-A261-B63536FD2822}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontHS2020MVC", "FrontHS2020MVC\FrontHS2020MVC.csproj", "{9C2D6C12-399F-433D-9782-1584A38FBDC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{AF4F6FC7-9CBD-4B77-A261-B63536FD2822}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF4F6FC7-9CBD-4B77-A261-B63536FD2822}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF4F6FC7-9CBD-4B77-A261-B63536FD2822}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C2D6C12-399F-433D-9782-1584A38FBDC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C2D6C12-399F-433D-9782-1584A38FBDC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C2D6C12-399F-433D-9782-1584A38FBDC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C2D6C12-399F-433D-9782-1584A38FBDC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

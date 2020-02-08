@@ -14,13 +14,13 @@
 
 <div class="collapse @_cssSearchedProdNamesCollapse">
     <small class="text-muted d-block">Productos encontrados</small>
-    @if (_filteredProdNames == null)
+    @if (_filteredNames == null)
     {
         <p><em>Buscando...</em></p>
     }
     else
     {
-        @foreach (var prodName in _filteredProdNames)
+        @foreach (var prodName in _filteredNames)
         {
             <span class="badge badge-primary">@prodName</span>
         }
@@ -37,19 +37,20 @@
     }
 </div>
 
-<button class="btn btn-success mt-4">Buscar productos</button>
+<button class="btn btn-success mt-4" @onclick="SearchProductName">Buscar productos</button>
 
 @code {
     private string _cssSearchedProdNamesCollapse = "";
     private string _cssRecentSearchedProdNamesCollapse = "";
     private string[] _productNames;
+    private string[] _filteredNames;
     private string[] _recentlySearched;
     private string _searchText { get; set; } = "";
     private int _minCharactersSearch = 3;
 
     protected override async Task OnInitializedAsync()
     {
-        _productNames = await ProductService.GetProductNamesAsync("");
+        _productNames = await ProductService.GetProductsNamesAsync();
     }
 
     private void SetVisibleRecentSearchedCollapse()
@@ -57,14 +58,12 @@
         _cssRecentSearchedProdNamesCollapse = "show";
     }
 
-    private async Task SearchProductName()
+    private void SearchProductName()
     {
         if (_searchText.Length >= _minCharactersSearch)
         {
             _cssSearchedProdNamesCollapse = "show";
-            _productNames = await ProductService.GetProductNamesAsync(_searchText);
+            _filteredNames = _productNames == null ? null : _productNames.Where(pn => pn.StartsWith(_searchText)).ToArray();
         }
     }
-
-    private string[] _filteredProdNames => _productNames != null ? _productNames.Where(pn => pn.StartsWith(_searchText)).ToArray() : null;
 }

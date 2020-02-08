@@ -15,5 +15,10 @@ namespace FontF2HS2020.Data
         {
             return Task.Run(() => { return ProductNames.Where(pn => pn.StartsWith(searchText)).ToArray(); });
         }
+
+        public Task<string[]> GetProductsNamesAsync()
+        {
+            return Task.Run(() => { return ProductNames; });
+        }
     }
 }

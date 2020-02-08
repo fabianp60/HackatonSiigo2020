@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewData["Title"] = "Buscar productos";
+}
+
+
+@section Styles {
+    <link rel="stylesheet" href="~/lib/tagify/tagify.css" />
+}
+
+<h3>Busqueda de productos</h3>
+
+<div class="form-group">
+    <label for="serachText">Nombre del producto</label>
+    <!-- Desde este control se limitan la cantidad de sugerencias para el usuario -->
+    <input type="text" class="form-control" name="searchText" id="searchText" aria-describedby="searchHelp" data-max-suggested-items="5" />
+    <small id="searchHelp" class="form-text text-muted">Ingrese el nombre del producto que desea encontrar</small>
+</div>
+
+
+@section Scripts
+{
+    <script src="~/lib/tagify/tagify.min.js"></script>
+    <script src="~/js/Products/Search.js"></script>
+}
