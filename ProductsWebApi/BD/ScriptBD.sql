@@ -37,11 +37,11 @@ VALUES ('Tenant1'),('Tenant2'),('Tenant3');
 INSERT INTO Products (Tenant_id, Name, Description, List_price)
 VALUES 
 (1,'Tenis','Tenis para todo deporte',235000.25),
-(2,'Tenis','Tenis para todo running',215000.50),
-(3,'Tenis','Tenis para todo escalada',225000.15),
-(1,'Camisetas','Camisetas para todo running',75000.25),
-(2,'Camisetas','Camisetas para todo futbol',115000.50),
-(3,'Camisetas','Camisetas para todo yoga',55000.15),
+(2,'Tenis','Tenis para running',215000.50),
+(3,'Tenis','Tenis para escalada',225000.15),
+(1,'Camisetas','Camisetas para running',75000.25),
+(2,'Camisetas','Camisetas para futbol',115000.50),
+(3,'Camisetas','Camisetas para yoga',55000.15),
 (1,'Smartphones','XHSD1 gama media',775000.25),
 (2,'Smartphones','RSD12 gama media',815000.50),
 (3,'Smartphones','AZX25 gama media',657000.15),
