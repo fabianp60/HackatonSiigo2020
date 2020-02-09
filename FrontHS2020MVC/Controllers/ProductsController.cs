@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FrontHS2020MVC.Models;
+using HackatonSiigo.SharedEntities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -31,6 +32,15 @@ namespace FrontHS2020MVC.Controllers
         public ActionResult MasiveUpload()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<object>> AsyncPostProduct(Product product)
+        {
+            // TODO: Cliente para el web api
+            return await Task.Run(() => {
+                return "ok";
+            });
         }
 
         // GET: Products/Create

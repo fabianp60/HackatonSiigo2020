@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductsWebApi", "ProductsW
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrontHS2020MVC", "FrontHS2020MVC\FrontHS2020MVC.csproj", "{9C2D6C12-399F-433D-9782-1584A38FBDC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackatonSiigo.SharedEntities", "HackatonSiigo.SharedEntities\HackatonSiigo.SharedEntities.csproj", "{605C6558-88C2-47B6-97BE-93D84E738870}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9C2D6C12-399F-433D-9782-1584A38FBDC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C2D6C12-399F-433D-9782-1584A38FBDC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C2D6C12-399F-433D-9782-1584A38FBDC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{605C6558-88C2-47B6-97BE-93D84E738870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{605C6558-88C2-47B6-97BE-93D84E738870}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{605C6558-88C2-47B6-97BE-93D84E738870}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{605C6558-88C2-47B6-97BE-93D84E738870}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

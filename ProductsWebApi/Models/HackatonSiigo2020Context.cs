@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using HackatonSiigo.SharedEntities;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProductsWebApi.Models
 {

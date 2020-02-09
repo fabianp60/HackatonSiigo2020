@@ -1,4 +1,4 @@
-﻿namespace ProductsWebApi.Models
+﻿namespace HackatonSiigo.SharedEntities
 {
     public class Tenant
     {

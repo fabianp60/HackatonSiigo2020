@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProductsWebApi.Models
+namespace HackatonSiigo.SharedEntities
 {
     public class Product
     {
