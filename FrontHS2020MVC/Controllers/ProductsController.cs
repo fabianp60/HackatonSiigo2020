@@ -19,23 +19,40 @@ namespace FrontHS2020MVC.Controllers
     {
         private readonly ILogger<ProductsController> _logger;
         private readonly AppSettings _appSettings;
+        private readonly string SessionKeyProductSearchData;
 
 
         public ProductsController(ILogger<ProductsController> logger, IOptions<AppSettings> appSettings)
         {
             _logger = logger;
             _appSettings = appSettings.Value;
+            SessionKeyProductSearchData = "_productSearchData";
         }
         // GET: Products
         public ActionResult Search()
         {
-            ProductsSearchViewModel viewModel = new ProductsSearchViewModel
+            // TODO: Se podria hacer un ranking de los productos más visitados que cruzan con el nombre de producto más buscado por el usuario
+            // usar cache para data del usuario
+            // usar cache para la data para todos los usuarios
+            ProductsSearchViewModel viewModel = HttpContext.Session.Get<ProductsSearchViewModel>(SessionKeyProductSearchData);
+            if (viewModel == null)
             {
-                MaxProductNamesInSearch = 5,
-                MaxSuggestedProducts = 4,
-                RecentlySearchedProductNames = new List<string>(),
-                SuggestedProducts = new List<Product>()
-            };
+                // Inicializar los datos
+                viewModel = new ProductsSearchViewModel
+                {
+                    MaxProductNamesInSearch = 5,
+                    MaxSuggestedProducts = 4,
+                    RecentlySearchedProductNames = new List<string>() { "Tenis", "Smartphones" },
+                    SuggestedProducts = new List<Product>() {
+                        new Product() { Id = 1, Tenant_id = 1, Name = "Tenis", Description = "Tenis para deporte", List_price = 235000.25M },
+                        new Product() { Id = 4, Tenant_id = 1, Name = "Camisetas", Description = "Camisetas para cualquier deporte", List_price = 35000.25M },
+                        new Product() { Id = 7, Tenant_id = 3, Name = "Celulares", Description = "Celular gama media", List_price = 850000.35M },
+                        new Product() { Id = 5, Tenant_id = 2, Name = "Camisetas", Description = "Camisetas para runnig", List_price = 45000.50M }
+                    }
+                };
+                HttpContext.Session.Set<ProductsSearchViewModel>(SessionKeyProductSearchData, viewModel);
+            }
+
             return View(viewModel);
         }
 

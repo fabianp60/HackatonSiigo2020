@@ -1,29 +1,24 @@
 ﻿function SearchProductsFrontControl() {
 	this.InitLocalDB();
 	this.InitControl();
-	this.GetInitialData();
 	this.InitDynamicControls();
 	this.InitEventListeners();
 }
 
-SearchProductsFrontControl.prototype.GetInitialData = function () {
-	// conectar el servicio para las sugerencias iniciales
-	this._suggestions = this.GetSuggestionsFromAPI();
-};
-
 SearchProductsFrontControl.prototype.InitControl = function () {
 	this._inputSearch = document.getElementById('searchText');
-	this._maxSuggestedItems = parseInt(this._inputSearch.dataset.maxSuggestedItems);
+	this._maxProdNamesInSearch = parseInt(this._inputSearch.dataset.maxProdnamesInSearch);
 	this._searchButton = document.getElementById("search-products-button");
 	this._tbodyForResults = document.getElementById("search-prods-result");
+	this._recentlySearched = JSON.parse(this._inputSearch.dataset.recentlySearched);
 };
 
 SearchProductsFrontControl.prototype.InitDynamicControls = function () {
 	this._tagifySearchControl = new Tagify(this._inputSearch, {
-		whitelist: this._suggestions,
+		whitelist: this._recentlySearched,
 		dropdown: {
 			enabled: 0,
-			maxItems: this._maxSuggestedItems,
+			maxItems: this._maxProdNamesInSearch,
 			closeOnSelect: false
 		},
 		enforceWhitelist: true
@@ -32,10 +27,6 @@ SearchProductsFrontControl.prototype.InitDynamicControls = function () {
 
 SearchProductsFrontControl.prototype.InitEventListeners = function () {
 	this._searchButton.addEventListener('click', this.OnSearchEvent.bind(this));
-};
-
-SearchProductsFrontControl.prototype.GetSuggestionsFromAPI = function () {
-	return this._localDB.fullSuggestions.slice(0, this._maxSuggestedItems);
 };
 
 SearchProductsFrontControl.prototype.OnSearchEvent = function () {
@@ -66,7 +57,7 @@ SearchProductsFrontControl.prototype.GetTableRowTemplate = function (rowData) {
 };
 
 SearchProductsFrontControl.prototype.GetProductsByName = function () {
-	return this._fullSuggestions.slice(0, this._maxSuggestedItems);
+	return this._fullSuggestions.slice(0, this._maxProdNamesInSearch);
 };
 
 SearchProductsFrontControl.prototype.InitLocalDB = function () {

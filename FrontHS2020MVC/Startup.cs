@@ -29,6 +29,15 @@ namespace FrontHS2020MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AppSettings>(options => Configuration.GetSection("AppSettings").Bind(options));
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -54,7 +63,7 @@ namespace FrontHS2020MVC
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthentication();

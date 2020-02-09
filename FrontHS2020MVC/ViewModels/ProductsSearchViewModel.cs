@@ -1,11 +1,10 @@
 ﻿using HackatonSiigo.SharedEntities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FrontHS2020MVC.ViewModels
 {
+    [Serializable]
     public class ProductsSearchViewModel
     {
         public List<string> RecentlySearchedProductNames { get; set; }

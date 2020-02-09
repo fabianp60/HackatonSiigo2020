@@ -1,4 +1,5 @@
 ﻿@model FrontHS2020MVC.ViewModels.ProductsSearchViewModel
+@using System.Text.Json
 @{
     ViewData["Title"] = "Buscar productos";
 }
@@ -11,31 +12,53 @@
 <h3>Busqueda de productos</h3>
 
 <p>Max num sugerencias: @Model.MaxSuggestedProducts</p>
-<p>Max num resultados predictivos: @Model.MaxProductNamesInSearch</p>
 
 
 <div class="form-group">
     <label for="serachText">Nombre del producto</label>
     <!-- Desde este control se limitan la cantidad de sugerencias para el usuario -->
-    <input type="text" class="form-control" name="searchText" id="searchText" aria-describedby="searchHelp" data-max-suggested-items="5" />
+    <input type="text" class="form-control" name="searchText" id="searchText" aria-describedby="searchHelp" data-max-prodnames-in-search="@Model.MaxProductNamesInSearch" data-recently-searched="@JsonSerializer.Serialize(Model.RecentlySearchedProductNames)" />
     <small id="searchHelp" class="form-text text-muted">Ingrese el nombre del producto que desea encontrar</small>
 </div>
 <div class="form-group">
     <button class="btn btn-primary" id="search-products-button">Buscar</button>
 </div>
 
-<table class="table">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">Cliente</th>
-            <th scope="col">Nombre producto</th>
-            <th scope="col">Descripción</th>
-            <th scope="col">Precio</th>
-        </tr>
-    </thead>
-    <tbody id="search-prods-result">
-    </tbody>
-</table>
+@if (Model.SuggestedProducts.Count() > 0)
+{
+    <h4>Productos sugeridos</h4>
+
+    <div class="card-deck">
+        @foreach (var product in Model.SuggestedProducts)
+        {
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+                @product.Name
+            </div>
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted"><strong>Precio</strong> @product.List_price</h6>
+                <p class="card-text">@product.Description</p>
+                <a href="#" class="btn btn-primary" data-product-id="@product.Id" data-product-tenant="@product.Tenant_id">Ver producto</a>
+            </div>
+        </div>
+        }
+    </div>
+}
+
+<div class="invisible mt-3">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Cliente</th>
+                <th scope="col">Nombre producto</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Precio</th>
+            </tr>
+        </thead>
+        <tbody id="search-prods-result">
+        </tbody>
+    </table>
+</div>
 
 
 @section Scripts
