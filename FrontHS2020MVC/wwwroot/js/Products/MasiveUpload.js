@@ -12,19 +12,18 @@ MasiveUploadProductsFrontControl.prototype.InitEventListeners = function () {
 };
 
 MasiveUploadProductsFrontControl.prototype.OnInputFileChangeEvent = function (evt) {
-    const archivo = evt.target.files[0];
-    if (!archivo) {
+    const file = evt.target.files[0];
+    if (!file) {
         return;
     }
-    const lector = new FileReader();
-    lector.onload = function (e) {
-        var contenido = e.target.result;
-        //var lines = contenido.split("\n");
-        var lines = contenido.split(/(?:\r\n|\r|\n)/g);
-        document.getElementById('file-content').innerHTML = contenido.replace(/(?:\r\n|\r|\n)/g, '<br>');
-        console.log(lines);
+    const fileReader = new FileReader();
+    fileReader.onload = function (e) {
+        let fileContent = e.target.result;
+        var fileLines = fileContent.split(/(?:\r\n|\r|\n)/g);
+        document.getElementById('file-content').innerHTML = fileContent.replace(/(?:\r\n|\r|\n)/g, '<br>');
+        console.log(fileLines);
     };
-    lector.readAsText(archivo);
+    fileReader.readAsText(file);
 };
 
 
