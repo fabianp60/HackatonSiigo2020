@@ -11,48 +11,48 @@ namespace ProductsWebApi.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class CustomersController : ControllerBase
     {
         private readonly HackatonSiigo2020Context _context;
 
-        public ProductsController(HackatonSiigo2020Context context)
+        public CustomersController(HackatonSiigo2020Context context)
         {
             _context = context;
         }
 
-        // GET: api/Products
+        // GET: api/Customers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Customers.ToListAsync();
         }
 
-        // GET: api/Products/5
+        // GET: api/Customers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var customer = await _context.Customers.FindAsync(id);
 
-            if (product == null)
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            return product;
+            return customer;
         }
 
-        // PUT: api/Products/5
+        // PUT: api/Customers/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        public async Task<IActionResult> PutCustomer(int id, Customer customer)
         {
-            if (id != product.Id)
+            if (id != customer.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(product).State = EntityState.Modified;
+            _context.Entry(customer).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace ProductsWebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductExists(id))
+                if (!CustomerExists(id))
                 {
                     return NotFound();
                 }
@@ -73,37 +73,37 @@ namespace ProductsWebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Products
+        // POST: api/Customers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
-            _context.Products.Add(product);
+            _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+            return CreatedAtAction("GetCustomer", new { id = customer.Id }, customer);
         }
 
-        // DELETE: api/Products/5
+        // DELETE: api/Customers/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Product>> DeleteProduct(int id)
+        public async Task<ActionResult<Customer>> DeleteCustomer(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            var customer = await _context.Customers.FindAsync(id);
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            _context.Products.Remove(product);
+            _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
 
-            return product;
+            return customer;
         }
 
-        private bool ProductExists(int id)
+        private bool CustomerExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _context.Customers.Any(e => e.Id == id);
         }
     }
 }

@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using ProductsWebApi.Models;
 
 namespace ProductsWebApi
 {
@@ -25,6 +27,8 @@ namespace ProductsWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<HackatonSiigo2020Context>(opt =>
+                opt.UseSqlServer(Configuration.GetConnectionString("HackatonSiigo2020")));
             services.AddControllers();
         }
 

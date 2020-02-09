@@ -11,48 +11,48 @@ namespace ProductsWebApi.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class TenantsController : ControllerBase
     {
         private readonly HackatonSiigo2020Context _context;
 
-        public ProductsController(HackatonSiigo2020Context context)
+        public TenantsController(HackatonSiigo2020Context context)
         {
             _context = context;
         }
 
-        // GET: api/Products
+        // GET: api/Tenants
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Tenant>>> GetTenants()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Tenants.ToListAsync();
         }
 
-        // GET: api/Products/5
+        // GET: api/Tenants/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<Tenant>> GetTenant(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var tenant = await _context.Tenants.FindAsync(id);
 
-            if (product == null)
+            if (tenant == null)
             {
                 return NotFound();
             }
 
-            return product;
+            return tenant;
         }
 
-        // PUT: api/Products/5
+        // PUT: api/Tenants/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        public async Task<IActionResult> PutTenant(int id, Tenant tenant)
         {
-            if (id != product.Id)
+            if (id != tenant.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(product).State = EntityState.Modified;
+            _context.Entry(tenant).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace ProductsWebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductExists(id))
+                if (!TenantExists(id))
                 {
                     return NotFound();
                 }
@@ -73,37 +73,37 @@ namespace ProductsWebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Products
+        // POST: api/Tenants
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<Tenant>> PostTenant(Tenant tenant)
         {
-            _context.Products.Add(product);
+            _context.Tenants.Add(tenant);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+            return CreatedAtAction("GetTenant", new { id = tenant.Id }, tenant);
         }
 
-        // DELETE: api/Products/5
+        // DELETE: api/Tenants/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Product>> DeleteProduct(int id)
+        public async Task<ActionResult<Tenant>> DeleteTenant(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            var tenant = await _context.Tenants.FindAsync(id);
+            if (tenant == null)
             {
                 return NotFound();
             }
 
-            _context.Products.Remove(product);
+            _context.Tenants.Remove(tenant);
             await _context.SaveChangesAsync();
 
-            return product;
+            return tenant;
         }
 
-        private bool ProductExists(int id)
+        private bool TenantExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _context.Tenants.Any(e => e.Id == id);
         }
     }
 }
