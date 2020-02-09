@@ -20,14 +20,14 @@ namespace ProductsWebApi.Controllers
             _context = context;
         }
 
-        // GET: api/Tenants
+        // GET: api/v1/tenants
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tenant>>> GetTenants()
         {
             return await _context.Tenants.ToListAsync();
         }
 
-        // GET: api/Tenants/5
+        // GET: api/v1/tenants/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Tenant>> GetTenant(int id)
         {
@@ -41,7 +41,7 @@ namespace ProductsWebApi.Controllers
             return tenant;
         }
 
-        // PUT: api/Tenants/5
+        // PUT: api/v1/tenants/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
@@ -73,7 +73,7 @@ namespace ProductsWebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Tenants
+        // POST: api/v1/tenants
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
@@ -82,10 +82,10 @@ namespace ProductsWebApi.Controllers
             _context.Tenants.Add(tenant);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTenant", new { id = tenant.Id }, tenant);
+            return CreatedAtAction(nameof(GetTenant), new { id = tenant.Id }, tenant);
         }
 
-        // DELETE: api/Tenants/5
+        // DELETE: api/v1/tenants/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Tenant>> DeleteTenant(int id)
         {

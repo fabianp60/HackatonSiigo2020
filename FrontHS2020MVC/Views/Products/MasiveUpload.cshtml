@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "Cargue masivo";
+}
+
+<h1>Cargue de productos</h1>
+
+<div class="form-group mt-4">
+    <label for="products-file">Cargue el archivo</label>
+    <div class="custom-file">
+        <input type="file" class="custom-file-input" id="products-file" name="products-file" aria-describedby="file-helper">
+        <label class="custom-file-label" for="products-file" data-browse="Elegir">Seleccionar Archivo</label>
+    </div>
+    <small id="file-helper" class="form-text text-muted">Cargue un archivo csv o txt separado por tabulaciones con las siguientes columnas (tenantid,name,description,list_price) no incluya los encabezados</small>
+</div>
+
+<div class="mt-4" id="file-content"></div>
+
+@section Scripts
+{
+    <script src="~/js/Products/MasiveUpload.js"></script>
+}

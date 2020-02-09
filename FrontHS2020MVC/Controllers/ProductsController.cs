@@ -2,20 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FrontHS2020MVC.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace FrontHS2020MVC.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly ILogger<ProductsController> _logger;
+        private readonly AppSettings _appSettings;
 
 
-        public ProductsController(ILogger<ProductsController> logger)
+        public ProductsController(ILogger<ProductsController> logger, IOptions<AppSettings> appSettings)
         {
             _logger = logger;
+            _appSettings = appSettings.Value;
         }
         // GET: Products
         public ActionResult Search()
@@ -24,7 +28,7 @@ namespace FrontHS2020MVC.Controllers
         }
 
         // GET: Products/Details/5
-        public ActionResult Details(int id)
+        public ActionResult MasiveUpload()
         {
             return View();
         }

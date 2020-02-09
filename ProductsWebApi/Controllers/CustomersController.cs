@@ -20,14 +20,14 @@ namespace ProductsWebApi.Controllers
             _context = context;
         }
 
-        // GET: api/Customers
+        // GET: api/v1/customers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
             return await _context.Customers.ToListAsync();
         }
 
-        // GET: api/Customers/5
+        // GET: api/v1/customers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
@@ -41,7 +41,7 @@ namespace ProductsWebApi.Controllers
             return customer;
         }
 
-        // PUT: api/Customers/5
+        // PUT: api/v1/customers/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
@@ -73,7 +73,7 @@ namespace ProductsWebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Customers
+        // POST: api/v1/customers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
@@ -82,10 +82,10 @@ namespace ProductsWebApi.Controllers
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCustomer", new { id = customer.Id }, customer);
+            return CreatedAtAction(nameof(GetCustomer), new { id = customer.Id }, customer);
         }
 
-        // DELETE: api/Customers/5
+        // DELETE: api/v1/customers/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Customer>> DeleteCustomer(int id)
         {
