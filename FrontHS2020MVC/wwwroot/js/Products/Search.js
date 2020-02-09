@@ -51,21 +51,18 @@ SearchProductsFrontControl.prototype.OnSearchEvent = function () {
 	this._tbodyForResults.innerHTML = "";
 	if (filteredProducts != null) {
 		filteredProducts.forEach(function (prod) {
-			this._tbodyForResults.appendChild(this.GetTableRowTemplate(prod));
+			this._tbodyForResults.innerHTML += this.GetTableRowTemplate(prod);
 		}.bind(this));
 	}
 };
 
 SearchProductsFrontControl.prototype.GetTableRowTemplate = function (rowData) {
-	let div = document.createElement('div');
-	let htmlRow = `<tr>
+	return `<tr>
 				<td>${rowData.tenant_id}</td>
 				<td>${rowData.name}</td>
 				<td>${rowData.description}</td>
 				<td>${rowData.list_price}</td>
 			</tr>`;
-	div.innerHTML = htmlRow;
-	return div.firstChild;
 };
 
 SearchProductsFrontControl.prototype.GetProductsByName = function () {
