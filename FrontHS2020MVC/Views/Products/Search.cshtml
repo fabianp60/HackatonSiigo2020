@@ -1,4 +1,4 @@
-﻿
+﻿@model FrontHS2020MVC.ViewModels.ProductsSearchViewModel
 @{
     ViewData["Title"] = "Buscar productos";
 }
@@ -9,6 +9,10 @@
 }
 
 <h3>Busqueda de productos</h3>
+
+<p>Max num sugerencias: @Model.MaxSuggestedProducts</p>
+<p>Max num resultados predictivos: @Model.MaxProductNamesInSearch</p>
+
 
 <div class="form-group">
     <label for="serachText">Nombre del producto</label>

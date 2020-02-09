@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using FrontHS2020MVC.Models;
 using FrontHS2020MVC.Utils;
+using FrontHS2020MVC.ViewModels;
 using HackatonSiigo.SharedEntities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,6 +14,7 @@ using Microsoft.Extensions.Options;
 
 namespace FrontHS2020MVC.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         private readonly ILogger<ProductsController> _logger;
@@ -26,7 +29,14 @@ namespace FrontHS2020MVC.Controllers
         // GET: Products
         public ActionResult Search()
         {
-            return View();
+            ProductsSearchViewModel viewModel = new ProductsSearchViewModel
+            {
+                MaxProductNamesInSearch = 5,
+                MaxSuggestedProducts = 4,
+                RecentlySearchedProductNames = new List<string>(),
+                SuggestedProducts = new List<Product>()
+            };
+            return View(viewModel);
         }
 
         // GET: Products/Details/5
