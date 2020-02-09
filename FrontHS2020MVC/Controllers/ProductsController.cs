@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FrontHS2020MVC.Models;
+using FrontHS2020MVC.Utils;
 using HackatonSiigo.SharedEntities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,10 +38,10 @@ namespace FrontHS2020MVC.Controllers
         [HttpPost]
         public async Task<ActionResult<object>> AsyncPostProduct(Product product)
         {
+            WebApiClient apiClient = new WebApiClient();
+            string requestUri = _appSettings.WebApiBase + _appSettings.ProductsEndPoint;
             // TODO: Cliente para el web api
-            return await Task.Run(() => {
-                return "ok";
-            });
+            return await apiClient.MakeAsyncPost(requestUri, product);
         }
 
         // GET: Products/Create

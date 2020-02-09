@@ -6,6 +6,7 @@
 MasiveUploadProductsFrontControl.prototype.InitControl = function () {
     this._inputFile = document.getElementById('products-file');
     this._fileResults = document.getElementById('file-content');
+    this._postAction = '/Products/AsyncPostProduct';
 };
 
 MasiveUploadProductsFrontControl.prototype.InitEventListeners = function () {
@@ -28,9 +29,43 @@ MasiveUploadProductsFrontControl.prototype.OnInputFileChangeEvent = function (ev
 MasiveUploadProductsFrontControl.prototype.OnFileLoaded = function (evt) {
     let fileContent = evt.target.result;
     let fileLines = fileContent.split(/(?:\r\n|\r|\n)/g);
-    // FIleIsValid Muestra las lineas con error
+    fileLines = fileLines.map((line) => line.split('\t'));
+    // FileIsValid Muestra las lineas con error
     if (this.FileIsValid(fileLines)) {
         this.RenderTable(fileLines);
+        this.BeginAsyncUpload(fileLines);
+    }
+};
+
+MasiveUploadProductsFrontControl.prototype.BeginAsyncUpload = async function (fileLines) {
+    for (let i = 0; i < fileLines.length; i++) {
+        let data = {
+            "tenant_id": fileLines[i][0],
+            "name": fileLines[i][1],
+            "description": fileLines[i][2],
+            "list_price": fileLines[i][3].replace(".", ",")
+        };
+        $.ajax({
+            type: "POST",
+            ContentType: "application/json",
+            url: this._postAction,
+            data: data,
+            context: { "thisControl": this, "index": i },
+            dataType: "json"
+        }).done(function (data) {
+            let td = this.thisControl._fileResults.querySelector(`td[data-api-result-id="${this.index}"]`);
+            td.innerHTML = `<span class="badge badge-success">Guardado</span>`;
+        }).fail(function (errObj) {
+            let errMsg = "";
+            if (errObj.responseText.includes('No se puede establecer una conexión')) {
+                errMsg = "No se puede establecer una conexión con el servicio";
+            } else {
+                errMsg = `${statusText} (código: ${status})`;
+            }
+            let td = this.thisControl._fileResults.querySelector(`td[data-api-result-id="${this.index}"]`);
+            td.innerHTML = `<span class="badge badge-danger" data-toggle="tooltip" data-placement="top" title="${errMsg}">Error</span>`;
+            $(td.querySelector('span[data-toggle="tooltip"]')).tooltip();
+        });
     }
 };
 
@@ -40,7 +75,7 @@ MasiveUploadProductsFrontControl.prototype.FileIsValid = function (fileLines) {
     this._fileResults.innerHTML = "Validando el archivo...<br>";
     let errors = '';
     for (let i = 0; i < fileLines.length; i++) {
-        let columns = fileLines[i].split('\t');
+        let columns = fileLines[i];
         if (columns.length != 4) {
             errors += `La linea ${i + 1} tiene ${columns.length} columnas deben ser 4<br>`;
             isValid = false;
@@ -80,14 +115,14 @@ MasiveUploadProductsFrontControl.prototype.RenderTable = function (fileLines) {
                           </thead>
                         <tbody>`;
     for (let i = 0; i < fileLines.length; i++) {
-        let columns = fileLines[i].split('\t');
+        let columns = fileLines[i];
         tableHtml += `<tr>
                         <td>${columns[0]}</td>
                         <td>${columns[1]}</td>
                         <td>${columns[2]}</td>
                         <td>${columns[3]}</td>
-                        <td>Esperando...</td>
-                    </tr>`;
+                        <td data-api-result-id="${i}"><span class="badge badge-warning">Esperando</span></td>
+                      </tr>`;
     }
 
     tableHtml += `</tbody>

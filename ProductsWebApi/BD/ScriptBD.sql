@@ -17,7 +17,7 @@ CREATE TABLE Products(
 	Tenant_id INT NOT NULL,
 	Name VARCHAR(255) NOT NULL,
 	Description VARCHAR(255),
-	List_price Decimal(10,2) NOT NULL,
+	List_price Decimal(15,2) NOT NULL,
 	FOREIGN KEY (Tenant_id) 
         REFERENCES Tenants (Id)
 );
